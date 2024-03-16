@@ -44,16 +44,13 @@ module sftpStorageAccount 'module/storage-account.bicep' = {
   }
 }
 
-resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: applicationInsightsName
-  location: location
-  tags: tags
-  kind: 'web'
-  properties: {
-    Application_Type: 'web'
-    Request_Source: 'rest'
+module applicationInsights 'module/application-insight.bicep' = {
+  name: 'deploy-${applicationInsightsName}'
+  params: {
+    location: location
+    applicationInsightsName: applicationInsightsName
   }
 }
 
 output storageAccountName string = storageAccount.outputs.storageAccountName
-output applicationInsightsName string = applicationInsights.name
+output applicationInsightsName string = applicationInsights.outputs.applicationInsightsName
