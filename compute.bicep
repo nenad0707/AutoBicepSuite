@@ -9,85 +9,53 @@ param tags object = {}
 @description('The name of the storage account')
 param storageAccountName string
 
-@secure()
-@description('Api key for our API')
-param apiKey string
-
-@description('The name of the function app')
+@description('The name of our function app resource')
 param functionAppName string
 
-@description('The name of the app service plan')
+@description('The name of the app service plan resource')
 param appServicePlanName string
 
-@description('The name of the application insights')
+@description('The name of the application insights resource')
 param applicationInsightsName string
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' existing = {
-  name: appServicePlanName
-}
+@allowed([
+  'S1'
+  'B1'
+])
+param appServicePlanSku string
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-  name: storageAccountName
-}
+@secure()
+@description('API key for our really interesting API')
+param apiKey string
 
-resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: applicationInsightsName
+module appServicePlan 'module/app-service-plan.bicep' = {
+  name: 'deploy-${appServicePlanName}'
+  params: {
+    appServicePlanName: appServicePlanName
+    location: location
+    appServicePlanSku: appServicePlanSku
+  }
 }
-
-var storageAccountConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
 module functionApp 'module/function-app.bicep' = {
   name: 'deploy-${functionAppName}'
   params: {
     appServicePlanName: appServicePlanName
-    location: location
+    appSettings: [
+      {
+        name: 'ApiKey'
+        value: apiKey
+      }
+    ]
+    applicationInsightsName: applicationInsightsName
     functionAppName: functionAppName
+    storageAccountName: storageAccountName
+    location: location
     tags: tags
   }
 }
 
-resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
-  name: functionAppName
-  location: location
-  tags: tags
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-    siteConfig: {
-      windowsFxVersion: 'DOTNET|LTS'
-      alwaysOn: true
-      appSettings: [
-        {
-          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-          value: appInsights.properties.InstrumentationKey
-        }
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: appInsights.properties.ConnectionString
-        }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~4'
-        }
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'dotnet'
-        }
-        {
-          name: 'ApiKey'
-          value: apiKey
-        }
-        {
-          name: 'AzureWebJobsStorage'
-          value: storageAccountConnectionString
-        }
-      ]
-    }
-  }
-}
-
-output functionAppName string = functionApp.name
+output appServicePlanName string = appServicePlan.outputs.appServicePlanName
+output appServicePlanId string = appServicePlan.outputs.appServicePlanId
+output functionAppName string = functionApp.outputs.functionAppName
+output functionAppId string = functionApp.outputs.functionAppId

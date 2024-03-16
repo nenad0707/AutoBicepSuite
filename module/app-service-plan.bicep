@@ -4,23 +4,21 @@ param location string
 @description('Tags for all resources')
 param tags object = {}
 
+@description('The name of the app service plan resource')
+param appServicePlanName string
+
 @allowed([
   'S1'
   'B1'
-  'F1'
 ])
-param appSevicePlanSku string = 'F1'
+param appServicePlanSku string = 'B1'
 
-@description('The name of the app service plan')
-param appServicePlanName string
-
-resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: appServicePlanName
   location: location
   tags: tags
   sku: {
-    name: appSevicePlanSku
-    tier: 'Basic'
+    name: appServicePlanSku
   }
 }
 
