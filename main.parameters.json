@@ -17,8 +17,14 @@
     "appServicePlanName": {
       "value": "asp-bicep-prod"
     },
-    "appSevicePlanSku": {
-      "value": "F1"
+    "appServicePlanSku": {
+      "value": "B1"
+    },
+    "functionAppName": {
+      "value": "func-bicep-prod"
+    },
+    "apiKey": {
+      "value": "secret-value"
     }
   }
 }
