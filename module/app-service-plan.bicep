@@ -7,6 +7,7 @@ param tags object = {}
 @allowed([
   'S1'
   'B1'
+  'F1'
 ])
 param appSevicePlanSku string = 'B1'
 
