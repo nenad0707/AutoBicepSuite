@@ -20,6 +20,9 @@ param applicationInsightsName string
 @description('The name of the app service plan')
 param appServicePlanName string
 
+@description('The name of the function app')
+param functionAppName string
+
 @description('Name of the SKU')
 @allowed([
   'Standard_GRS'
@@ -32,7 +35,11 @@ param storageAccountSku string = 'Standard_LRS'
   'B1'
   'F1'
 ])
-param appSevicePlanSku string = 'F1'
+param appSevicePlanSku string = 'B1'
+
+@secure()
+@description('Api key for our API')
+param apiKey string
 
 module storageAccount 'module/storage-account.bicep' = {
   name: 'deploy-${sftpStorageAccountName}'
@@ -68,6 +75,24 @@ module appServicePlan 'module/app-service-plan.bicep' = {
     location: location
     appServicePlanName: appServicePlanName
     appSevicePlanSku: appSevicePlanSku
+  }
+}
+
+resource storageAccountReference 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: storageAccountName
+}
+
+module functionApp 'compute.bicep' = {
+  name: 'deploy-compute'
+  params: {
+    apiKey: apiKey
+    applicationInsightsName: applicationInsightsName
+    appServicePlanName: appServicePlanName
+    functionAppName: functionAppName
+    appServicePlanSku: appSevicePlanSku
+    location: location
+    storageAccountName: storageAccountName
+    tags: tags
   }
 }
 
