@@ -1,3 +1,5 @@
+// This module sets up a Storage Account
+
 @description('Location for the resources')
 param location string
 

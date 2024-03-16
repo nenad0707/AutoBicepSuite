@@ -1,3 +1,5 @@
+# This script sets up Azure resources
+
 # Connect to Azure account
 Connect-AzAccount
 

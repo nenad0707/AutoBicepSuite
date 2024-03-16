@@ -1,3 +1,5 @@
+// This module sets up Application Insights
+
 @description('Location for the resources')
 param location string
 

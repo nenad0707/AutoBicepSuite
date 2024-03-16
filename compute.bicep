@@ -1,3 +1,5 @@
+// This file sets up compute resources for the project
+
 @description('Location for the resources')
 param location string
 

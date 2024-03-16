@@ -1,3 +1,5 @@
+// This module sets up an App Service Plan
+
 @description('Location for the resources')
 param location string
 
