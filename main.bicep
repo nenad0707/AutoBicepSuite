@@ -14,13 +14,13 @@ param storageAccountName string
 @description('The name of the SFTP storage account')
 param sftpStorageAccountName string
 
-@description('The name of the application insights')
+@description('The name of the application insights resource')
 param applicationInsightsName string
 
-@description('The name of the app service plan')
+@description('The name of the app service plan resource')
 param appServicePlanName string
 
-@description('The name of the function app')
+@description('The name of our function app resource')
 param functionAppName string
 
 @description('Name of the SKU')
@@ -28,20 +28,29 @@ param functionAppName string
   'Standard_GRS'
   'Standard_LRS'
 ])
-param storageAccountSku string = 'Standard_LRS'
+param storageAccountSku string
 
 @allowed([
   'S1'
   'B1'
-  'F1'
 ])
-param appSevicePlanSku string = 'B1'
+param appServicePlanSku string = 'B1'
 
 @secure()
-@description('Api key for our API')
+@description('API key for our really interesting API')
 param apiKey string
 
 module storageAccount 'module/storage-account.bicep' = {
+  name: 'deploy-${storageAccountName}'
+  params: {
+    location: location
+    tags: tags
+    storageAccountName: storageAccountName
+    storageAccountSku: storageAccountSku
+  }
+}
+
+module sftpStorageAccount 'module/storage-account.bicep' = {
   name: 'deploy-${sftpStorageAccountName}'
   params: {
     location: location
@@ -52,44 +61,23 @@ module storageAccount 'module/storage-account.bicep' = {
   }
 }
 
-module sftpStorageAccount 'module/storage-account.bicep' = {
-  name: 'deploy-sftp-${storageAccountName}'
-  params: {
-    location: location
-    tags: tags
-    storageAccountName: storageAccountName
-  }
-}
-
 module applicationInsights 'module/application-insight.bicep' = {
   name: 'deploy-${applicationInsightsName}'
   params: {
-    location: location
     applicationInsightsName: applicationInsightsName
-  }
-}
-
-module appServicePlan 'module/app-service-plan.bicep' = {
-  name: 'deploy-${appServicePlanName}'
-  params: {
     location: location
-    appServicePlanName: appServicePlanName
-    appSevicePlanSku: appSevicePlanSku
+    tags: tags
   }
 }
 
-resource storageAccountReference 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
-  name: storageAccountName
-}
-
-module functionApp 'compute.bicep' = {
+module compute 'compute.bicep' = {
   name: 'deploy-compute'
   params: {
     apiKey: apiKey
     applicationInsightsName: applicationInsightsName
     appServicePlanName: appServicePlanName
     functionAppName: functionAppName
-    appServicePlanSku: appSevicePlanSku
+    appServicePlanSku: appServicePlanSku
     location: location
     storageAccountName: storageAccountName
     tags: tags
@@ -98,4 +86,5 @@ module functionApp 'compute.bicep' = {
 
 output storageAccountName string = storageAccount.outputs.storageAccountName
 output applicationInsightsName string = applicationInsights.outputs.applicationInsightsName
-output appServicePlanName string = appServicePlan.outputs.appServicePlanName
+output appServicePlanName string = compute.outputs.appServicePlanName
+output functionAppName string = compute.outputs.functionAppName
