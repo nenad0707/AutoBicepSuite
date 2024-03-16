@@ -17,12 +17,21 @@ param sftpStorageAccountName string
 @description('The name of the application insights')
 param applicationInsightsName string
 
+@description('The name of the app service plan')
+param appServicePlanName string
+
 @description('Name of the SKU')
 @allowed([
   'Standard_GRS'
   'Standard_LRS'
 ])
 param storageAccountSku string = 'Standard_LRS'
+
+@allowed([
+  'S1'
+  'B1'
+])
+param appSevicePlanSku string = 'B1'
 
 module storageAccount 'module/storage-account.bicep' = {
   name: 'deploy-${sftpStorageAccountName}'
@@ -49,6 +58,16 @@ module applicationInsights 'module/application-insight.bicep' = {
   params: {
     location: location
     applicationInsightsName: applicationInsightsName
+  }
+}
+
+resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
+  name: appServicePlanName
+  location: location
+  tags: tags
+  sku: {
+    name: appSevicePlanSku
+    tier: 'Basic'
   }
 }
 
