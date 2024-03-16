@@ -14,4 +14,16 @@ param storageAccountName string
   'Standard_GRS'
   'Standard_LRS'
 ])
-param storageAccountSku string
+param storageAccountSku string = 'Standard_LRS'
+
+module storageAccount 'module/storage-account.bicep' = {
+  name: 'deploy-${storageAccountName}'
+  params: {
+    location: location
+    tags: tags
+    storageAccountName: storageAccountName
+    storageAccountSku: storageAccountSku
+  }
+}
+
+output storageAccountName string = storageAccount.outputs.storageAccountName
