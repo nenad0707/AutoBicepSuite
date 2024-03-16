@@ -9,7 +9,7 @@ param tags object = {}
   'B1'
   'F1'
 ])
-param appSevicePlanSku string = 'B1'
+param appSevicePlanSku string = 'F1'
 
 @description('The name of the app service plan')
 param appServicePlanName string

@@ -30,8 +30,9 @@ param storageAccountSku string = 'Standard_LRS'
 @allowed([
   'S1'
   'B1'
+  'F1'
 ])
-param appSevicePlanSku string = 'B1'
+param appSevicePlanSku string = 'F1'
 
 module storageAccount 'module/storage-account.bicep' = {
   name: 'deploy-${sftpStorageAccountName}'
