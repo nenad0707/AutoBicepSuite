@@ -61,15 +61,15 @@ module applicationInsights 'module/application-insight.bicep' = {
   }
 }
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2020-06-01' = {
-  name: appServicePlanName
-  location: location
-  tags: tags
-  sku: {
-    name: appSevicePlanSku
-    tier: 'Basic'
+module appServicePlan 'module/app-service-plan.bicep' = {
+  name: 'deploy-${appServicePlanName}'
+  params: {
+    location: location
+    appServicePlanName: appServicePlanName
+    appSevicePlanSku: appSevicePlanSku
   }
 }
 
 output storageAccountName string = storageAccount.outputs.storageAccountName
 output applicationInsightsName string = applicationInsights.outputs.applicationInsightsName
+output appServicePlanName string = appServicePlan.outputs.appServicePlanName

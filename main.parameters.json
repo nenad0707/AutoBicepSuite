@@ -13,6 +13,12 @@
     },
     "applicationInsightsName": {
       "value": "appi-bicep-prod"
+    },
+    "appServicePlanName": {
+      "value": "asp-bicep-prod"
+    },
+    "appSevicePlanSku": {
+      "value": "F1"
     }
   }
 }
