@@ -79,4 +79,3 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
 
 output functionAppName string = functionApp.name
 output functionAppId string = functionApp.id
-output functionAppDefaultHostName string = functionApp.properties.defaultHostName

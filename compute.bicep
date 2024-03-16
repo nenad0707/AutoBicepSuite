@@ -59,4 +59,3 @@ output appServicePlanName string = appServicePlan.outputs.appServicePlanName
 output appServicePlanId string = appServicePlan.outputs.appServicePlanId
 output functionAppName string = functionApp.outputs.functionAppName
 output functionAppId string = functionApp.outputs.functionAppId
-output functionAppDefaultHostName string = functionApp.outputs.functionAppDefaultHostName
