@@ -39,8 +39,15 @@ module appServicePlan 'module/app-service-plan.bicep' = {
   }
 }
 
+resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
+  name: storageAccountName
+}
+
 module functionApp 'module/function-app.bicep' = {
   name: 'deploy-${functionAppName}'
+  dependsOn: [
+    storageAccount
+  ]
   params: {
     appServicePlanName: appServicePlanName
     appSettings: [
