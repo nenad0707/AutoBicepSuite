@@ -9,10 +9,10 @@
       }
     },
     "storageAccountName": {
-      "value": "stg-bicep-prod"
+      "value": "stgbicepprod0707"
     },
     "sftpStorageAccountName": {
-      "value": "sftpst-bicep-prod"
+      "value": "sftpstbicepprod0707"
     },
     "storageAccountSku": {
       "value": "Standard_LRS"
