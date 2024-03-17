@@ -4,10 +4,15 @@ param location string = resourceGroup().location
 @description('Tags for all resources')
 param tags object = {}
 
-// @minLength(3)
-// @maxLength(24)
-// @description('The name of the SFTP storage account')
-// param sftpStorageAccountName string
+@minLength(3)
+@maxLength(24)
+@description('The name of the storage account')
+param storageAccountName string
+
+@minLength(3)
+@maxLength(24)
+@description('The name of the SFTP storage account')
+param sftpStorageAccountName string
 
 @description('The name of the application insights resource')
 param applicationInsightsName string
@@ -17,6 +22,13 @@ param appServicePlanName string
 
 @description('The name of our function app resource')
 param functionAppName string
+
+@description('Name of the SKU')
+@allowed([
+  'Standard_GRS'
+  'Standard_LRS'
+])
+param storageAccountSku string
 
 @allowed([
   'S1'
@@ -28,16 +40,26 @@ param appServicePlanSku string = 'B1'
 @description('API key for our really interesting API')
 param apiKey string
 
-// module sftpStorageAccount 'module/storage-account.bicep' = {
-//   name: 'deploy-${sftpStorageAccountName}'
-//   params: {
-//     location: location
-//     tags: tags
-//     storageAccountName: sftpStorageAccountName
-//     storageAccountSku: storageAccountSku
-//     isSftpEnabled: true
-//   }
-// }
+module storageAccount 'module/storage-account.bicep' = {
+  name: 'deploy-${storageAccountName}'
+  params: {
+    location: location
+    tags: tags
+    storageAccountName: storageAccountName
+    storageAccountSku: storageAccountSku
+  }
+}
+
+module sftpStorageAccount 'module/storage-account.bicep' = {
+  name: 'deploy-${sftpStorageAccountName}'
+  params: {
+    location: location
+    tags: tags
+    storageAccountName: sftpStorageAccountName
+    storageAccountSku: storageAccountSku
+    isSftpEnabled: true
+  }
+}
 
 module applicationInsights 'module/application-insight.bicep' = {
   name: 'deploy-${applicationInsightsName}'
@@ -57,10 +79,12 @@ module compute 'compute.bicep' = {
     functionAppName: functionAppName
     appServicePlanSku: appServicePlanSku
     location: location
+    storageAccountName: storageAccountName
     tags: tags
   }
 }
 
+output storageAccountName string = storageAccount.outputs.storageAccountName
 output applicationInsightsName string = applicationInsights.outputs.applicationInsightsName
 output appServicePlanName string = compute.outputs.appServicePlanName
 output functionAppName string = compute.outputs.functionAppName

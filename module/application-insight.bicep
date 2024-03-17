@@ -3,11 +3,11 @@
 @description('Location for the resources')
 param location string
 
-@description('The name of the application insights')
-param applicationInsightsName string
-
 @description('Tags for all resources')
 param tags object = {}
+
+@description('The name of the application insights resource')
+param applicationInsightsName string
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: applicationInsightsName
@@ -21,3 +21,4 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 output applicationInsightsName string = applicationInsights.name
+output applicationInsightsId string = applicationInsights.id

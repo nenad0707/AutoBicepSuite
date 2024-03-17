@@ -10,6 +10,11 @@ param functionAppName string
 @description('The name of the app service plan resource')
 param appServicePlanName string
 
+@minLength(3)
+@maxLength(24)
+@description('The name of the storage account')
+param storageAccountName string
+
 @description('The name of the application insights resource')
 param applicationInsightsName string
 
@@ -20,11 +25,21 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' existing = {
   name: appServicePlanName
 }
 
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+  name: storageAccountName
+}
+
 resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: applicationInsightsName
 }
 
+var storageAccountConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+
 var requiredAppSettings = [
+  {
+    name: 'AzureWebJobsStorage'
+    value: storageAccountConnectionString
+  }
   {
     name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
     value: appInsights.properties.InstrumentationKey
