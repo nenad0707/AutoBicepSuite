@@ -36,3 +36,15 @@ The `azureScript.ps1` file is a PowerShell script that sets up Azure contexts, c
 ## 📁 Module Directory
 
 The `module` directory contains `.bicep` files for each of the resources that are deployed, including the storage account, application insights resource, app service plan, and function app.
+
+## 🚀 GitHub Actions Workflow
+
+The GitHub Actions workflow in [workflow.yml](.github/workflows/workflow.yml) consists of three jobs:
+
+1. **Lint**: This job runs on the latest Ubuntu environment and checks the syntax of your Bicep files by running `az bicep build --file main.bicep`.
+
+2. **Validate**: This job also runs on the latest Ubuntu environment. It signs in to Azure using the provided secrets and performs a preflight validation of your Bicep templates using the `azure/arm-deploy@v1` action. It uses the `main.bicep` file as the template and `main.parameters.json` for the parameters.
+
+3. **Deploy**: This job depends on the successful completion of the `lint` and `validate` jobs. It signs in to Azure and deploys your Bicep templates to the specified resource group using the `azure/arm-deploy@v1` action.
+
+The workflow is triggered on every push to the `main` branch.
