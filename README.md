@@ -1,4 +1,8 @@
-# 📂 Project Structure
+# AutoBicepSuite
+
+[![deploy-auto-website-suite](https://github.com/nenad0707/AutoBicepSuite/actions/workflows/workflow.yml/badge.svg)](https://github.com/nenad0707/AutoBicepSuite/actions/workflows/workflow.yml)
+
+## 📂 Project Structure
 
 The project consists of the following files and directories:
 
