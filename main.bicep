@@ -82,6 +82,10 @@ module compute 'compute.bicep' = {
     storageAccountName: storageAccountName
     tags: tags
   }
+  dependsOn: [
+    storageAccount
+    sftpStorageAccount
+  ]
 }
 
 output storageAccountName string = storageAccount.outputs.storageAccountName
