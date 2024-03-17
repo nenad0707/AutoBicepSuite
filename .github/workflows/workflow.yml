@@ -12,7 +12,6 @@ permissions:
 
 env:
   AZURE_RESOURCEGROUP_NAME: rg_sb_eastus_89803_1_171067179341
-  ENVIRONMENT_TYPE: Test
 
 jobs:
   lint:
@@ -57,4 +56,3 @@ jobs:
           deploymentName: ${{ github.run_number }}
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: main.bicep
-          parameters: environmentType=${{ env.ENVIRONMENT_TYPE }}
