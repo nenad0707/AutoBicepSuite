@@ -53,6 +53,9 @@ module functionApp 'module/function-app.bicep' = {
     location: location
     tags: tags
   }
+  dependsOn: [
+    appServicePlan
+  ]
 }
 
 output appServicePlanName string = appServicePlan.outputs.appServicePlanName
