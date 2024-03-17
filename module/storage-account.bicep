@@ -38,8 +38,8 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
   kind: storageAccountKind
   properties: {
-    minimumTlsVersion: 'TLS1_2'
-    supportsHttpsTrafficOnly: true
+    // minimumTlsVersion: 'TLS1_2'
+    // supportsHttpsTrafficOnly: true
     isSftpEnabled: isSftpEnabled
     isHnsEnabled: isSftpEnabled ? true : false
   }
@@ -56,7 +56,7 @@ resource containers 'Microsoft.Storage/storageAccounts/blobServices/containers@2
     name: containerName
     parent: blobServices
     properties: {
-      publicAccess: 'None'
+      publicAccess: 'Blob'
     }
   }
 ]
