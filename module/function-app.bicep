@@ -1,5 +1,3 @@
-// This module sets up a Function App
-
 @description('Location for the resources')
 param location string
 
@@ -60,11 +58,10 @@ var requiredAppSettings = [
   }
 ]
 
-resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
+resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
   name: functionAppName
   location: location
   tags: tags
-  dependsOn: [storageAccount]
   kind: 'functionapp'
   identity: {
     type: 'SystemAssigned'
@@ -73,13 +70,12 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
     serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
-      windowsFxVersion: 'DOTNET|LTS'
+      windowsFxVersion: 'DOTNETCORE|LTS'
       alwaysOn: true
-      appSettings: union(requiredAppSettings, appSettings)
+      appSettings: union(appSettings, requiredAppSettings)
     }
   }
 }
 
 output functionAppName string = functionApp.name
 output functionAppId string = functionApp.id
-output functionAppHostName string = functionApp.properties.defaultHostName

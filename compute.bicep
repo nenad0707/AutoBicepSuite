@@ -1,5 +1,3 @@
-// This file sets up compute resources for the project
-
 @description('Location for the resources')
 param location string
 
@@ -39,15 +37,8 @@ module appServicePlan 'module/app-service-plan.bicep' = {
   }
 }
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
-  name: storageAccountName
-}
-
 module functionApp 'module/function-app.bicep' = {
   name: 'deploy-${functionAppName}'
-  dependsOn: [
-    storageAccount
-  ]
   params: {
     appServicePlanName: appServicePlanName
     appSettings: [
@@ -68,4 +59,3 @@ output appServicePlanName string = appServicePlan.outputs.appServicePlanName
 output appServicePlanId string = appServicePlan.outputs.appServicePlanId
 output functionAppName string = functionApp.outputs.functionAppName
 output functionAppId string = functionApp.outputs.functionAppId
-output functionAppHostName string = functionApp.outputs.functionAppHostName

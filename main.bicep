@@ -1,5 +1,3 @@
-// This file sets up the main resources for the project
-
 @description('Location for the resources')
 param location string = resourceGroup().location
 
