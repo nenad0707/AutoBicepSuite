@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "storageAccountName": {
-      "value": "stbicep-prod"
+      "value": "stbicepprod0707"
     },
     "sftpStorageAccountName": {
       "value": "stsftpbicepprod"
