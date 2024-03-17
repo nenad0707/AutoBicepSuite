@@ -19,6 +19,8 @@ The Azure resources used in this project are temporary as they are part of an Az
 
 ![Azure Infrastructure](azure-infrastructure.png "Azure Infrastructure")
 
+This image represents the deployed Azure resources in the project.
+
 ## 📄 Main Files
 
 The `main.bicep` and `compute.bicep` files are responsible for setting up the main resources and compute resources for the project, respectively. They define various parameters such as the location, tags, and names of the resources, and they also include modules for deploying these resources.
