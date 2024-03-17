@@ -60,9 +60,6 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
       appSettings: union(appSettings, requiredAppSettings)
     }
   }
-  dependsOn: [
-    appServicePlan
-  ]
 }
 
 output functionAppName string = functionApp.name
