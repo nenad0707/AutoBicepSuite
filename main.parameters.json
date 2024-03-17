@@ -5,9 +5,6 @@
     "applicationInsightsName": {
       "value": "appi-bicep-prod"
     },
-    "appServicePlanName": {
-      "value": "asp-bicep-prod"
-    },
     "appServicePlanSku": {
       "value": "B1"
     },
@@ -16,6 +13,9 @@
     },
     "apiKey": {
       "value": "secret-value"
+    },
+    "appServicePlanName": {
+      "value": "asp-bicep-prod"
     }
   }
 }
