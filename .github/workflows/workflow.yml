@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 env:
-  AZURE_RESOURCEGROUP_NAME: rg_sb_eastus_89803_1_171067179341
+  AZURE_RESOURCEGROUP_NAME: rg_sb_eastus_89803_1_17107038115
 
 jobs:
   lint:
