@@ -2,23 +2,32 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "tags": {
+      "value": {
+        "environment": "prod",
+        "owner": "Nenad Ristic"
+      }
+    },
     "storageAccountName": {
       "value": "stbicepcoursedev"
+    },
+    "sftpStorageAccountName": {
+      "value": "sftpstbicepcoursedev"
     },
     "storageAccountSku": {
       "value": "Standard_LRS"
     },
     "appServicePlanName": {
-      "value": "app-bicep-course-dev"
+      "value": "app-bicep-prod"
     },
     "appServicePlanSku": {
       "value": "B1"
     },
     "functionAppName": {
-      "value": "func-bicep-course-dev"
+      "value": "func-bicep-prod"
     },
     "applicationInsightsName": {
-      "value": "appi-bicep-course-dev"
+      "value": "appi-bicep-prod"
     },
     "apiKey": {
       "value": "secret-value"
