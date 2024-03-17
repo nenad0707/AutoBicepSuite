@@ -4,11 +4,6 @@ param location string
 @description('Tags for all resources')
 param tags object = {}
 
-@minLength(3)
-@maxLength(24)
-@description('The name of the storage account')
-param storageAccountName string
-
 @description('The name of our function app resource')
 param functionAppName string
 
@@ -49,7 +44,6 @@ module functionApp 'module/function-app.bicep' = {
     ]
     applicationInsightsName: applicationInsightsName
     functionAppName: functionAppName
-    storageAccountName: storageAccountName
     location: location
     tags: tags
   }

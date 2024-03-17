@@ -4,10 +4,10 @@ param location string = resourceGroup().location
 @description('Tags for all resources')
 param tags object = {}
 
-@minLength(3)
-@maxLength(24)
-@description('The name of the SFTP storage account')
-param sftpStorageAccountName string
+// @minLength(3)
+// @maxLength(24)
+// @description('The name of the SFTP storage account')
+// param sftpStorageAccountName string
 
 @description('The name of the application insights resource')
 param applicationInsightsName string
@@ -28,16 +28,16 @@ param appServicePlanSku string = 'B1'
 @description('API key for our really interesting API')
 param apiKey string
 
-module sftpStorageAccount 'module/storage-account.bicep' = {
-  name: 'deploy-${sftpStorageAccountName}'
-  params: {
-    location: location
-    tags: tags
-    storageAccountName: sftpStorageAccountName
-    storageAccountSku: storageAccountSku
-    isSftpEnabled: true
-  }
-}
+// module sftpStorageAccount 'module/storage-account.bicep' = {
+//   name: 'deploy-${sftpStorageAccountName}'
+//   params: {
+//     location: location
+//     tags: tags
+//     storageAccountName: sftpStorageAccountName
+//     storageAccountSku: storageAccountSku
+//     isSftpEnabled: true
+//   }
+// }
 
 module applicationInsights 'module/application-insight.bicep' = {
   name: 'deploy-${applicationInsightsName}'
