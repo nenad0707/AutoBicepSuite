@@ -57,7 +57,6 @@ module compute 'compute.bicep' = {
     functionAppName: functionAppName
     appServicePlanSku: appServicePlanSku
     location: location
-    storageAccountName: storageAccountName
     tags: tags
   }
 }
