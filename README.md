@@ -17,7 +17,7 @@ README.md
 
 The Azure resources used in this project are temporary as they are part of an Azure Cloud Sandbox which was purchased temporarily. Please ensure to replace these resources with your own before deploying the project.
 
-![Azure Infrastructure](azure-infrastructure.png)
+![Azure Infrastructure](azure-infrastructure.png "Azure Infrastructure")
 
 ## 📄 Main Files
 
