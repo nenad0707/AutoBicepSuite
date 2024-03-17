@@ -31,7 +31,7 @@
       "value": "appi-bicep-prod"
     },
     "apiKey": {
-      "value": "supersecretkey"
+      "value": "super-secretkey"
     }
   }
 }
