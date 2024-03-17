@@ -64,6 +64,7 @@ resource functionApp 'Microsoft.Web/sites@2020-06-01' = {
   name: functionAppName
   location: location
   tags: tags
+  dependsOn: [storageAccount]
   kind: 'functionapp'
   identity: {
     type: 'SystemAssigned'
