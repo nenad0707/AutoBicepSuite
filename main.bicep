@@ -6,11 +6,6 @@ param tags object = {}
 
 @minLength(3)
 @maxLength(24)
-@description('The name of the storage account')
-param storageAccountName string
-
-@minLength(3)
-@maxLength(24)
 @description('The name of the SFTP storage account')
 param sftpStorageAccountName string
 
@@ -23,13 +18,6 @@ param appServicePlanName string
 @description('The name of our function app resource')
 param functionAppName string
 
-@description('Name of the SKU')
-@allowed([
-  'Standard_GRS'
-  'Standard_LRS'
-])
-param storageAccountSku string
-
 @allowed([
   'S1'
   'B1'
@@ -39,16 +27,6 @@ param appServicePlanSku string = 'B1'
 @secure()
 @description('API key for our really interesting API')
 param apiKey string
-
-module storageAccount 'module/storage-account.bicep' = {
-  name: 'deploy-${storageAccountName}'
-  params: {
-    location: location
-    tags: tags
-    storageAccountName: storageAccountName
-    storageAccountSku: storageAccountSku
-  }
-}
 
 module sftpStorageAccount 'module/storage-account.bicep' = {
   name: 'deploy-${sftpStorageAccountName}'
@@ -84,7 +62,6 @@ module compute 'compute.bicep' = {
   }
 }
 
-output storageAccountName string = storageAccount.outputs.storageAccountName
 output applicationInsightsName string = applicationInsights.outputs.applicationInsightsName
 output appServicePlanName string = compute.outputs.appServicePlanName
 output functionAppName string = compute.outputs.functionAppName
