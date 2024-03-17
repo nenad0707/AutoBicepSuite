@@ -11,11 +11,11 @@
     "functionAppName": {
       "value": "func-bicep-prod"
     },
-    "appServicePlanName": {
-      "value": "asp-bicep-prod"
-    },
     "apiKey": {
       "value": "secret-value"
+    },
+    "appServicePlanName": {
+      "value": "asp-bicep-prod"
     }
   }
 }
