@@ -4,7 +4,7 @@
   "parameters": {
     "tags": {
       "value": {
-        "environment": "prod",
+        "environment": "production",
         "owner": "Nenad Ristic"
       }
     },
