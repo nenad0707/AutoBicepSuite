@@ -4,78 +4,62 @@ param location string
 @description('Tags for all resources')
 param tags object = {}
 
-@description('The name of our function app resource')
-param functionAppName string
-
-@description('The name of the app service plan resource')
-param appServicePlanName string
-
 @minLength(3)
 @maxLength(24)
 @description('The name of the storage account')
 param storageAccountName string
 
-@description('The name of the application insights resource')
-param applicationInsightsName string
+@description('Name of the SKU')
+@allowed([
+  'Standard_GRS'
+  'Standard_LRS'
+])
+param storageAccountSku string = 'Standard_LRS'
 
-@description('App settings for the function app')
-param appSettings array
+@description('The type of storage account')
+@allowed([
+  'BlobStorage'
+  'StorageV2'
+])
+param storageAccountKind string = 'StorageV2'
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' existing = {
-  name: appServicePlanName
-}
+@description('Set storage account SFTP enabled')
+param isSftpEnabled bool = false
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' existing = {
+@description('The names of containers for creation')
+param containerNames array = []
+
+resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName
+  location: location
+  tags: tags
+  sku: {
+    name: storageAccountSku
+  }
+  kind: storageAccountKind
+  properties: {
+    minimumTlsVersion: 'TLS1_2'
+    supportsHttpsTrafficOnly: true
+    isSftpEnabled: isSftpEnabled
+    isHnsEnabled: isSftpEnabled ? true : false
+  }
 }
 
-resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: applicationInsightsName
-}
+resource blobServices 'Microsoft.Storage/storageAccounts/blobServices@2021-02-01' =
+  if (!empty(containerNames)) {
+    name: 'default'
+    parent: storageAccount
+  }
 
-var storageAccountConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-
-var requiredAppSettings = [
-  {
-    name: 'AzureWebJobsStorage'
-    value: storageAccountConnectionString
-  }
-  {
-    name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
-    value: appInsights.properties.InstrumentationKey
-  }
-  {
-    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-    value: appInsights.properties.ConnectionString
-  }
-  {
-    name: 'FUNCTIONS_EXTENSION_VERSION'
-    value: '~4'
-  }
-  {
-    name: 'FUNCTIONS_WORKER_RUNTIME'
-    value: 'dotnet'
+resource containers 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = [
+  for containerName in containerNames: {
+    name: containerName
+    parent: blobServices
+    properties: {
+      publicAccess: 'None'
+    }
   }
 ]
 
-resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
-  name: functionAppName
-  location: location
-  tags: tags
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-    siteConfig: {
-      windowsFxVersion: 'DOTNETCORE|LTS'
-      alwaysOn: true
-      appSettings: union(appSettings, requiredAppSettings)
-    }
-  }
-}
-
-output functionAppName string = functionApp.name
-output functionAppId string = functionApp.id
+output storageAccountName string = storageAccount.name
+output storageAccountId string = storageAccount.id
