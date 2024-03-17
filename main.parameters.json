@@ -17,11 +17,11 @@
     "storageAccountSku": {
       "value": "Standard_LRS"
     },
-    "appServicePlanName": {
-      "value": "app-bicep-prod"
-    },
     "appServicePlanSku": {
       "value": "B1"
+    },
+    "appServicePlanName": {
+      "value": "app-bicep-prod"
     },
     "functionAppName": {
       "value": "func-bicep-prod"
