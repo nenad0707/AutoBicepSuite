@@ -20,11 +20,12 @@
     "appServicePlanSku": {
       "value": "B1"
     },
-    "appServicePlanName": {
-      "value": "app-bicep-prod"
-    },
+
     "functionAppName": {
       "value": "func-bicep-prod"
+    },
+    "appServicePlanName": {
+      "value": "app-bicep-prod"
     },
     "applicationInsightsName": {
       "value": "appi-bicep-prod"
