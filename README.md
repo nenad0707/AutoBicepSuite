@@ -13,7 +13,7 @@ function-app.bicep
 storage-account.bicep
 README.md
 
-![Azure Infrastructure](https://photos.app.goo.gl/vyBph4BqTbmBhtj67)
+![Azure Infrastructure](https://photos.app.goo.gl/kUe2MmKshwQFh1Tv9)
 
 ## 📄 Main Files
 
