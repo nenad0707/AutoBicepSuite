@@ -22,6 +22,14 @@ $applicationRegistration = New-AzADApplication -DisplayName 'autobicepsuite'
 
 # Create a new Azure AD application federated credential
 New-AzADAppFederatedCredential `
+  -Name 'autobicepsuite' `
+  -ApplicationObjectId $applicationRegistration.Id `
+  -Issuer 'https://token.actions.githubusercontent.com' `
+  -Audience 'api://AzureADTokenExchange' `
+  -Subject "repo:$($githubOrganizationName)/$($githubRepositoryName):environment:Azure"
+
+# Create a new Azure AD application federated credential for the autobicepsuite-branch
+New-AzADAppFederatedCredential `
   -Name 'autobicepsuite-branch' `
   -ApplicationObjectId $applicationRegistration.Id `
   -Issuer 'https://token.actions.githubusercontent.com' `
