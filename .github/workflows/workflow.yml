@@ -88,8 +88,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
+          $container = New-PesterContainer `
+            -Path 'deploy/Website.Tests.ps1' `
+            -Data @{ HostName = '${{needs.deploy.outputs.appServiceDefaultHostName}}' }
           Invoke-Pester `
-          -Script @{ Path = 'Website.Tests.ps1'; Parameters = @{ HostName = '${{needs.deploy.outputs.appServiceDefaultHostName}}' } } `
-          -CI
+            -Container $container `
+            -CI `
         name: Run smoke tests
         shell: pwsh
