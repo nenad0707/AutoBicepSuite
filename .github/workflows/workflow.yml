@@ -89,7 +89,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           $container = New-PesterContainer `
-            -Path 'deploy/Website.Tests.ps1' `
+            -Path 'Website.Tests.ps1' ` ## This is the path to the Pester test file add folder name if it is in a folder
             -Data @{ HostName = '${{needs.deploy.outputs.appServiceDefaultHostName}}' }
           Invoke-Pester `
             -Container $container `
