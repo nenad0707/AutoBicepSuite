@@ -53,12 +53,12 @@ jobs:
       - uses: azure/arm-deploy@v1
         name: Run what-if
         with:
+          scope: resourcegroup
           failOnStdErr: false
           resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
           template: main.bicep
           parameters: main.parameters.json
           additionalArguments: --what-if
-          scope: ${{ env.AZURE_RESOURCEGROUP_NAME }}
   deploy:
     runs-on: ubuntu-latest
     environment: Azure
