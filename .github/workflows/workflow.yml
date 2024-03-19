@@ -20,7 +20,8 @@ jobs:
     needs: lint
     uses: ./.github/workflows/validate.yml
     with:
-      resourceGroupName: ${{ inputs.AZURE_RESOURCEGROUP_NAME}}
+      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+    secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
@@ -29,19 +30,21 @@ jobs:
     needs: validate
     uses: ./.github/workflows/preview.yml
     with:
-      resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+    secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy:
     needs: preview
     uses: ./.github/workflows/deploy.yml
     with:
-      resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+    secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   smoke-test:
     needs: deploy
