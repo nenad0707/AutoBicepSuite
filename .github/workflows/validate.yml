@@ -1,0 +1,34 @@
+name: Validate Deployment
+on:
+  workflow_call:
+    inputs:
+      resourceGroupName:
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        name: Sign in to Azure
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - uses: azure/arm-deploy@v1
+        name: Run preflight validation
+        with:
+          deploymentName: ${{ github.run_number }}
+          resourceGroupName: ${{ inputs.resourceGroupName }}
+          template: main.bicep
+          parameters: main.parameters.json
+          deploymentMode: Validate
