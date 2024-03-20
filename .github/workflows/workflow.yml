@@ -11,36 +11,45 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  resourceGroupName: rg_sb_eastus_89803_1_171095341434
 jobs:
-  # Lint the Bicep file.
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      resourceGroupName: ${{ env.resourceGroupName }}
+    steps:
+      - name: Set env
+        run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434" >> $GITHUB_ENV
+      # Lint the Bicep file.
   lint:
     uses: ./.github/workflows/lint.yml
 
   validate:
-    needs: lint
+    needs: [lint, setup]
     uses: ./.github/workflows/validate.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171095341434
+      resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   preview:
-    needs: validate
+    needs: [validate, setup]
     uses: ./.github/workflows/preview.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171095341434
+      resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy:
-    needs: preview
+    needs: [preview, setup]
     uses: ./.github/workflows/deploy.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171095341434
+      resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}} }}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
