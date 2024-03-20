@@ -2,9 +2,6 @@ name: deploy-auto-website-suite
 concurrency: auto-bicep
 
 on:
-  push:
-    paths-ignore:
-      - "README.md"
   workflow_dispatch:
 
 permissions:
@@ -19,12 +16,10 @@ jobs:
     steps:
       - name: Set env
         run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434"
-
-  # Lint the Bicep file.
+      # Lint the Bicep file.
   lint:
     uses: ./.github/workflows/lint.yml
 
-  # Validate the Bicep file.
   validate:
     needs: [lint, setup]
     uses: ./.github/workflows/validate.yml
@@ -35,7 +30,6 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-  # Preview the Bicep file in Azure.
   preview:
     needs: [validate, setup]
     uses: ./.github/workflows/preview.yml
@@ -46,7 +40,6 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-  # Deploy the Bicep file to Azure.
   deploy:
     needs: [preview, setup]
     uses: ./.github/workflows/deploy.yml
