@@ -20,7 +20,7 @@ jobs:
     needs: lint
     uses: ./.github/workflows/validate.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+      resourceGroupName: rg_sb_eastus_89803_1_171095341434
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -30,7 +30,7 @@ jobs:
     needs: validate
     uses: ./.github/workflows/preview.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+      resourceGroupName: rg_sb_eastus_89803_1_171095341434
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -40,7 +40,7 @@ jobs:
     needs: preview
     uses: ./.github/workflows/deploy.yml
     with:
-      resourceGroupName: rg_sb_eastus_89803_1_171088057588
+      resourceGroupName: rg_sb_eastus_89803_1_171095341434
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

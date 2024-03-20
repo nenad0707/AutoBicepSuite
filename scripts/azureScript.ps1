@@ -10,7 +10,7 @@ $context = Get-AzSubscription -SubscriptionName PAYG-Sandboxes
 Set-AzContext $context
 
 # Set the default resource group
-Set-AzDefault -ResourceGroupName rg_sb_eastus_89803_1_171088057588
+Set-AzDefault -ResourceGroupName rg_sb_eastus_89803_1_171095341434
 ##change resourse group name
 
 # Set the GitHub organization and repository names
@@ -37,7 +37,7 @@ New-AzADAppFederatedCredential `
   -Subject "repo:$($githubOrganizationName)/$($githubRepositoryName):ref:refs/heads/main"
 
 # Get the resource group
-$resourceGroup = Get-AzResourceGroup -Name rg_sb_eastus_89803_1_171088057588
+$resourceGroup = Get-AzResourceGroup -Name rg_sb_eastus_89803_1_171095341434
 
 
 # Create a new Azure AD service principal
