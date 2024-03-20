@@ -11,17 +11,20 @@ permissions:
 jobs:
   setup:
     runs-on: ubuntu-latest
+    name: Setup Azure Resource Group 🏗️
     outputs:
       resourceGroupName: rg_sb_eastus_89803_1_171095341434
     steps:
       - name: Set env
         run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434"
-      # Lint the Bicep file.
+  # Lint the Bicep file.
   lint:
     uses: ./.github/workflows/lint.yml
 
+  # Validate the Bicep file.
   validate:
     needs: [lint, setup]
+    name: Preflight validation  🛠
     uses: ./.github/workflows/validate.yml
     with:
       resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
@@ -30,8 +33,10 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+  # Preview the Bicep file.
   preview:
     needs: [validate, setup]
+    name: Preview Azure Resource 🌐
     uses: ./.github/workflows/preview.yml
     with:
       resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
@@ -40,8 +45,10 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+  # Deploy the Azure resourses from bicep.
   deploy:
     needs: [preview, setup]
+    name: Deploy Azure Resources 🚀
     uses: ./.github/workflows/deploy.yml
     with:
       resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
