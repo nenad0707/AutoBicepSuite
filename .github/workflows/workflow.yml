@@ -11,16 +11,14 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  resourceGroupName: rg_sb_eastus_89803_1_171095341434
 jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      resourceGroupName: ${{ env.resourceGroupName }}
+      resourceGroupName: rg_sb_eastus_89803_1_171095341434
     steps:
       - name: Set env
-        run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434" >> $GITHUB_ENV
+        run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434"
       # Lint the Bicep file.
   lint:
     uses: ./.github/workflows/lint.yml
