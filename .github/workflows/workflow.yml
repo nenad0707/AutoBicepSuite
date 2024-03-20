@@ -21,6 +21,7 @@ jobs:
 
   # Lint the Bicep file.
   lint:
+    name: Lint Bicep file 🧹
     uses: ./.github/workflows/lint.yml
 
   # Validate the Bicep file.
