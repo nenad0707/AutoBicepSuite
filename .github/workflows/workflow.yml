@@ -49,7 +49,7 @@ jobs:
     needs: [preview, setup]
     uses: ./.github/workflows/deploy.yml
     with:
-      resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}} }}
+      resourceGroupName: ${{ needs.setup.outputs.resourceGroupName}}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
