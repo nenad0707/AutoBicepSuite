@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Setup Azure Resource Group 🏗️
     outputs:
-      resourceGroupName: rg_sb_eastus_89803_1_17109534143
+      resourceGroupName: rg_sb_eastus_89803_1_17110434906
     steps:
       - name: Set env
-        run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434"
+        run: echo "resourceGroupName=rg_sb_eastus_89803_1_17110434906"
 
   # Lint the Bicep file.
   lint:
