@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Setup Azure Resource Group 🏗️
     outputs:
-      resourceGroupName: rg_sb_eastus_89803_1_171095341434
+      resourceGroupName: rg_sb_eastus_89803_1_17109534143
     steps:
       - name: Set env
         run: echo "resourceGroupName=rg_sb_eastus_89803_1_171095341434"
